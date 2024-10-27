@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('productos', function (Blueprint $table) {
+        Schema::create('venta', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('departamento');
-            $table->string('marca');
-            $table->float('costo');
-            $table->float('precioVenta');
+            $table->unsignedBigInteger('producto_id');
             $table->integer('cantidad');
+            $table->float('total');
             $table->timestamps();
+            // Llave foránea para relacionar con la tabla productos
+        $table->foreign('producto_id')->references('id')->on('productos');
         });
     }
 
