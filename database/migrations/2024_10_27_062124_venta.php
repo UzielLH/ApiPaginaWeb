@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('venta', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('producto_id');
+            $table->date('fecha');
             $table->integer('cantidad');
             $table->float('total');
             $table->timestamps();

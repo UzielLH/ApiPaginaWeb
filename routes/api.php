@@ -12,6 +12,7 @@ Route::get('/user', function (Request $request) {
 Route::prefix('productos')->group(function () {
     Route::get('/all',[productosController::class,'getProductos']);
     Route::get('/{id}',[productosController::class,'getProducto']);
+    Route::get('/producto/{nombre}',[productosController::class,'getProductosNombre']);
     Route::get('/departamento/{departamento}',[productosController::class,'getProductosDepartamento']);
     Route::get('cantidadProducto/{id}',[productosController::class,'getCantidadProducto']);
     Route::post('/create',[productosController::class,'createProducto']);

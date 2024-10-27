@@ -32,6 +32,13 @@ class productosController extends Controller
         }
         return response()->json(['cantidad'=>$producto->cantidad]);
     }
+    public function getProductosNombre($nombre){
+        $productos=productos::where('nombre',$nombre)->get();
+        if($productos->isEmpty()){
+            return response()->json(['message'=>'No hay productos con este nombre'],404);
+        }
+        return response()->json($productos);
+    }
     public function createProducto(Request $request){
         $producto=productos::create($request->all());
         return response()->json($producto);

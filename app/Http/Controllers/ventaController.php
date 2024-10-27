@@ -25,16 +25,23 @@ class ventaController extends Controller
 
     public function createVenta(Request $request)
     {
+         // Validar que la fecha esté en el formato correcto
+    $request->validate([
+        'producto_id' => 'required|exists:productos,id',
+        'cantidad' => 'required|integer|min:1',
+        'fecha' => 'required|date',
+        'total' => 'required|float|min:1',
+    ]);
         $producto = productos::find($request->producto_id);
         if (!$producto) {
             return response()->json(['message' => 'Producto no encontrado'], 404);
         }
 
-        $total = $producto->precioVenta * $request->cantidad;
         $venta = venta::create([
             'producto_id' => $request->producto_id,
+            'fecha'=>$request->fecha,
             'cantidad' => $request->cantidad,
-            'total' => $total,
+            'total' =>$request-> total,
         ]);
 
         return response()->json($venta);
