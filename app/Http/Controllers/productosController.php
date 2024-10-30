@@ -59,4 +59,20 @@ class productosController extends Controller
         $producto->update($request->all());
         return response()->json($producto);
     }
+    public function updateProductoNombre(Request $request,$nombre){
+        $producto=productos::where('nombre',$nombre)->get();
+        if($producto->isEmpty()){
+            return response()->json(['message'=>'Producto no encontrado'],404);
+        }
+        $producto[0]->update($request->all());
+        return response()->json($producto);
+    }
+    public function deleteProductoNombre($nombre){
+        $producto=productos::where('nombre',$nombre)->get();
+        if($producto->isEmpty()){
+            return response()->json(['message'=>'Producto no encontrado'],404);
+        }
+        $producto[0]->delete();
+        return response()->json(['message'=>'Producto eliminado']);
+    }
 }

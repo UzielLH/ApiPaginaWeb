@@ -10,17 +10,23 @@ class ventaController extends Controller
 {
     public function getVentas()
     {
-        $ventas = venta::with('producto')->get();
+        $ventas = venta::with('productos')->get();
         return response()->json($ventas);
     }
 
     public function getVenta($id)
     {
-        $venta = venta::with('producto')->find($id);
+        $venta = venta::with('productos')->find($id);
         if (!$venta) {
             return response()->json(['message' => 'Venta no encontrada'], 404);
         }
         return response()->json($venta);
+    }
+
+    public function getVentasFecha($fecha)
+    {
+        $ventas = venta::with('productos')->where('fecha', $fecha)->get();
+        return response()->json($ventas);
     }
 
     public function createVenta(Request $request)
@@ -30,7 +36,7 @@ class ventaController extends Controller
         'producto_id' => 'required|exists:productos,id',
         'cantidad' => 'required|integer|min:1',
         'fecha' => 'required|date',
-        'total' => 'required|float|min:1',
+        'total' => 'required|min:1',
     ]);
         $producto = productos::find($request->producto_id);
         if (!$producto) {
@@ -43,6 +49,9 @@ class ventaController extends Controller
             'cantidad' => $request->cantidad,
             'total' =>$request-> total,
         ]);
+
+        $producto->cantidad -= $request->cantidad;
+        $producto->save();
 
         return response()->json($venta);
     }
@@ -58,12 +67,10 @@ class ventaController extends Controller
         if (!$producto) {
             return response()->json(['message' => 'Producto no encontrado'], 404);
         }
-
-        $total = $producto->precioVenta * $request->cantidad;
         $venta->update([
             'producto_id' => $request->producto_id,
             'cantidad' => $request->cantidad,
-            'total' => $total,
+            'total' => $request->total,
         ]);
 
         return response()->json($venta);

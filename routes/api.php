@@ -17,12 +17,15 @@ Route::prefix('productos')->group(function () {
     Route::get('cantidadProducto/{id}',[productosController::class,'getCantidadProducto']);
     Route::post('/create',[productosController::class,'createProducto']);
     Route::put('/update/{id}',[productosController::class,'updateProducto']);
+    Route::put('/updateporNombre/{nombre}',[productosController::class,'updateProductoNombre']);
     Route::delete('/delete/{id}',[productosController::class,'deleteProducto']);
+    Route::delete('/deleteporNombre/{nombre}',[productosController::class,'deleteProductoNombre']);
 });
 
 Route::prefix('venta')->group(function () {
     Route::get('/all', [ventaController::class, 'getVentas']);
     Route::get('/{id}', [VentaController::class, 'getVenta']);
+    Route::get('/fecha/{fecha}', [VentaController::class, 'getVentasFecha']);
     Route::post('/create', [VentaController::class, 'createVenta']);
     Route::put('/update/{id}', [VentaController::class, 'updateVenta']);
     Route::delete('/delete/{id}', [VentaController::class, 'deleteVenta']);
