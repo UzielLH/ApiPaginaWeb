@@ -19,7 +19,9 @@ class productosController extends Controller
         return response()->json($producto);
     }
     public function getProductosDepartamento($departamento){
-        $productos=productos::where('departamento',$departamento)->get();
+        $productos=productos::where('departamento',
+        'like','%'.$departamento.'%'
+        )->get();
         if($productos->isEmpty()){
             return response()->json(['message'=>'No hay productos en este departamento'],404);
         }
@@ -33,7 +35,11 @@ class productosController extends Controller
         return response()->json(['cantidad'=>$producto->cantidad]);
     }
     public function getProductosNombre($nombre){
-        $productos=productos::where('nombre',$nombre)->get();
+
+        // cambiar por like %nombre%
+        $productos=productos::where('nombre',
+        'like','%'.$nombre.'%'
+        )->get();
         if($productos->isEmpty()){
             return response()->json(['message'=>'No hay productos con este nombre'],404);
         }
